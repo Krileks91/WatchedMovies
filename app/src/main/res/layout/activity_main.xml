@@ -14,8 +14,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="enterAlways|scroll"
-            android:background="@color/teal_700"/>
+            android:background="#FF8F00"
+            app:layout_scrollFlags="enterAlways|scroll" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,8 +35,8 @@
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="#F9A825"
             android:choiceMode="singleChoice"
-            android:dividerHeight="1dp"
-            android:background="@color/teal_200" />
+            android:dividerHeight="1dp" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </LinearLayout>

@@ -33,7 +33,7 @@ public class SearchFragment extends Fragment {
     private onListItemClickListener listener;
 
     private EditText etSearch;
-    private Button bSearch;
+    private Button buttonSearch;
     private ListView lvSearch;
 
     public SearchFragment() {
@@ -45,10 +45,10 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         etSearch = view.findViewById(R.id.etSearch);
-        bSearch = view.findViewById(R.id.bSearch);
+        buttonSearch = view.findViewById(R.id.buttonSearch);
         lvSearch = view.findViewById(R.id.lvSearch);
 
-        bSearch.setOnClickListener(new View.OnClickListener() {
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!etSearch.getText().toString().equals("")){

@@ -16,10 +16,11 @@
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/bSearch"
-        android:layout_width="match_parent"
+        android:id="@+id/buttonSearch"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pretrazi" />
+        android:layout_gravity="center"
+        android:text="Search" />
 
     <ListView
         android:id="@+id/lvSearch"

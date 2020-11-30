@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CollectionMovies</string>
+    <string name="app_name">CollectionFavoriteMovies</string>
     <string name="drawer_close">Close</string>
     <string name="drawer_open">Open</string>
     <!-- TODO: Remove or change this placeholder text -->
