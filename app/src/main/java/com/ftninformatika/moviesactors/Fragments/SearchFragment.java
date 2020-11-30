@@ -1,5 +1,6 @@
 package com.ftninformatika.moviesactors.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.ftninformatika.moviesactors.Adapters.SearchListviewAdapter;
+import com.ftninformatika.moviesactors.Models.Movie;
 import com.ftninformatika.moviesactors.Models.Result;
 import com.ftninformatika.moviesactors.Models.Search;
 import com.ftninformatika.moviesactors.Net.WebService.RESTService;
@@ -27,10 +30,11 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
+    private onListItemClickListener listener;
+
     private EditText etSearch;
     private Button bSearch;
     private ListView lvSearch;
-
 
     public SearchFragment() {
     }
@@ -61,7 +65,7 @@ public class SearchFragment extends Fragment {
 
     private void searchMovies(String title){
         HashMap<String, String> query = new HashMap<>();
-        query.put("apikey", "d3824e34");
+        query.put("apikey", RESTService.API_KEY);
         query.put("s", title);
 
         Call<Result> call = RESTService.apiInterface().getMoviesByTitle(query);
@@ -87,9 +91,51 @@ public class SearchFragment extends Fragment {
             lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                    searchDetails(adapter.getItem(position).getImdbID());
                 }
             });
         }
+    }
+
+    private void searchDetails(String id) {
+        HashMap<String, String> query = new HashMap<>();
+        query.put("apikey", RESTService.API_KEY);
+        query.put("i", id);
+
+        Call<Movie> call = RESTService.apiInterface().getMoviesByIMDBID(query);
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                if (response.code() == 200) {
+                    if (response.body() != null) {
+                        Movie movie = response.body();
+                        listener.onListItemClicked(movie);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof onListItemClickListener) {
+            listener = (onListItemClickListener) context;
+        } else {
+            Toast.makeText(getActivity(), "Morate implementirati intefrace", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+    public interface onListItemClickListener {
+        void onListItemClicked(Movie movie);
     }
 }

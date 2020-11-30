@@ -15,13 +15,31 @@ import com.ftninformatika.moviesactors.Adapters.DrawerListViewAdapter;
 import com.ftninformatika.moviesactors.Fragments.WatchedFragment;
 import com.ftninformatika.moviesactors.Fragments.SearchFragment;
 import com.ftninformatika.moviesactors.Fragments.SettingsFragment;
+import com.ftninformatika.moviesactors.Models.Movie;
 import com.ftninformatika.moviesactors.Models.NavigationItem;
 import com.ftninformatika.moviesactors.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+
+import com.ftninformatika.moviesactors.Net.ORMLite.DatabaseHelper;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
+import java.sql.SQLException;
+
+public class MainActivity extends AppCompatActivity implements SearchFragment.onListItemClickListener , WatchedFragment.onItemClickListener{
+
+    public static final int NOTIF_ID = 5;
+    public static final String NOTIF_CHANNEL_ID = "Notification Channel";
+
+    private DatabaseHelper databaseHelper;
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -30,18 +48,25 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<NavigationItem> navigationItems = new ArrayList<>();
 
-    private boolean showedSearch = false, showedDetails = false,
-            showedSettings = false;     private boolean showerWatched = false;
-
+    private boolean searchShowed = false, settingShowed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        createNotificationChannel();
+        showWatchedFragment();
         setupDrawer();
+    }
 
-        showSearchFragment();
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIF_CHANNEL_ID, "Nas Notif Kanal", importance);
+            channel.setDescription("Our channel");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     private void setupDrawer() {
@@ -52,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerNavigationItems() {
-        navigationItems.add(new NavigationItem("Watched Movies", "Go To collection", R.drawable.favorites_icon));
-        navigationItems.add(new NavigationItem("Settings", "Application settings", R.drawable.settings_icon));
+        navigationItems.add(new NavigationItem("Watched Movies","See all movies", R.drawable.ic_baseline_list_alt_24));
+        navigationItems.add(new NavigationItem("Settings", "Configure Application", R.drawable.ic_baseline_settings_applications_24));
     }
 
     private void setupDrawerItems() {
@@ -65,12 +90,9 @@ public class MainActivity extends AppCompatActivity {
         drawerList.setOnItemClickListener((parent, view, position, id) -> {
             switch (position) {
                 case 0:
-                    showSearchFragment();
-                    break;
-                case 1:
                     showWatchedFragment();
                     break;
-                case 2:
+                case 1:
                     showSettingsFragment();
                     break;
             }
@@ -85,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.menu_icon);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24);
             actionBar.setHomeButtonEnabled(true);
             actionBar.show();
         }
@@ -109,20 +131,8 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.root, fragment);
         transaction.commit();
 
-        showedSearch = true;
-        showerWatched = false;
-        showedSettings = false;
-    }
-
-    private void showWatchedFragment() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        WatchedFragment fragment = new WatchedFragment();
-        transaction.replace(R.id.root, fragment);
-        transaction.commit();
-
-        showedSearch = false;
-        showerWatched = true;
-        showedSettings = false;
+        searchShowed = true;
+        settingShowed = false;
     }
 
     private void showSettingsFragment() {
@@ -131,22 +141,83 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.root, fragment);
         transaction.commit();
 
-        showedSearch = false;
-        showerWatched = false;
-        showedSettings = true;
+        searchShowed = false;
+        settingShowed = true;
     }
+
+    private void showWatchedFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        WatchedFragment fragment = new WatchedFragment();
+        transaction.replace(R.id.root, fragment);
+        transaction.commit();
+
+        searchShowed = true;
+        settingShowed = false;
+    }
+
 
     @Override
     public void onBackPressed() {
-        if (showedSearch) {
+        if (searchShowed) {
             finish();
-        } else if (showerWatched) {
-            getSupportFragmentManager().popBackStack();
-            showSearchFragment();
-        } else if (showedSettings) {
-            getSupportFragmentManager().popBackStack();
-            showSearchFragment();
+        } else if (settingShowed) {
+            finish();
         }
     }
 
+    public DatabaseHelper getDatabaseHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
+    }
+
+    private void showNotification(String text) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIF_CHANNEL_ID);
+        builder.setContentTitle(getString(R.string.app_name))
+                .setContentText(text)
+                .setSmallIcon(R.drawable.ic_launcher_foreground);
+
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(NOTIF_ID, builder.build());
+    }
+    @Override
+    public void onaddClicked() {
+        showSearchFragment();
+    }
+
+    @Override
+    public void showTehnickiDetalji(Movie movie) {
+
+    }
+
+    @Override
+    public void showDetails(Movie movie) {
+
+    }
+
+    @Override
+    public void onListItemClicked(Movie movie) {
+        try {
+            List<Movie> movies = getDatabaseHelper().getMovieDao().queryForAll();
+
+            if (movies.size() > 0) {
+                if (!movies.contains(movie)) {
+                    getDatabaseHelper().getMovieDao().create(movie);
+
+                    showNotification(movie.getTitle() + " added to base");
+
+                    showWatchedFragment();
+                }else {
+                    showNotification(movie.getTitle() + " already in base");
+                }
+            } else {
+                getDatabaseHelper().getMovieDao().create(movie);
+                showNotification(movie.getTitle() + " added to base");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        showWatchedFragment();
+    }
 }
