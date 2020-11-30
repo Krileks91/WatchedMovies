@@ -46,11 +46,10 @@ public class SearchListviewAdapter extends BaseAdapter {
         ImageView imageMovie = convertView.findViewById(R.id.image_Movie);
         TextView tvTitle = convertView.findViewById(R.id.textView_Title);
         TextView tvYear = convertView.findViewById(R.id.textView_Year);
-        TextView tvType = convertView.findViewById(R.id.textView_Type);
 
         tvTitle.setText(movies.get(position).getTitle());
         tvYear.setText(movies.get(position).getYear());
-        tvType.setText(movies.get(position).getType());
+
 
         Picasso.get().load(movies.get(position).getPoster()).into(imageMovie);
 

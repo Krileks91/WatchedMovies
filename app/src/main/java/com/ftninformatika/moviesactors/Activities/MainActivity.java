@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
 
     private final List<NavigationItem> navigationItems = new ArrayList<>();
 
-    private boolean searchShowed = false, settingShowed = false;
+    private boolean searchShowed = false, settingShowed = false, watchShowed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
 
         searchShowed = true;
         settingShowed = false;
+        watchShowed = false;
     }
 
     private void showSettingsFragment() {
@@ -143,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
 
         searchShowed = false;
         settingShowed = true;
+        watchShowed = false;
+
     }
 
     private void showWatchedFragment(){
@@ -151,19 +154,26 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
         transaction.replace(R.id.root, fragment);
         transaction.commit();
 
-        searchShowed = true;
+        searchShowed = false;
         settingShowed = false;
+        watchShowed = true;
+
+
     }
 
 
-    @Override
-    public void onBackPressed() {
-        if (searchShowed) {
-            finish();
-        } else if (settingShowed) {
-            finish();
+
+        public void onBackPressed() {
+            if (searchShowed) {
+                finish();
+            } else if (watchShowed) {
+                getSupportFragmentManager().popBackStack();
+                showWatchedFragment();
+            } else if (settingShowed) {
+                getSupportFragmentManager().popBackStack();
+                showWatchedFragment();
+            }
         }
-    }
 
     public DatabaseHelper getDatabaseHelper() {
         if (databaseHelper == null) {

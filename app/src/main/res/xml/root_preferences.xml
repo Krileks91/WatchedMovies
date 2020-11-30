@@ -3,7 +3,7 @@
 
         <PreferenceCategory
             android:key="prikaz"
-            android:title="Show Fragment">
+            android:title="Details and Watchers">
 
             <CheckBoxPreference
                 android:defaultValue="true"

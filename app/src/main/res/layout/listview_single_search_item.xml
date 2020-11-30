@@ -45,11 +45,6 @@
                 android:layout_height="match_parent"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/textView_Type"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

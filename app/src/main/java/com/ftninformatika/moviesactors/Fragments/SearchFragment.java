@@ -55,7 +55,7 @@ public class SearchFragment extends Fragment {
                     searchMovies(etSearch.getText().toString());
                 }
                 else {
-                    Toast.makeText(getActivity(), "Popunite polje sa nazivom!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Fill With Movie Title", Toast.LENGTH_SHORT).show();
                 }
             }
         });
