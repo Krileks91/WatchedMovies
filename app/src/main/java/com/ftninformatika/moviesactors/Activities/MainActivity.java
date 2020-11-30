@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     showSearchFragment();
                     break;
                 case 1:
-                    showFavoritesFragment();
+                    showWatchedFragment();
                     break;
                 case 2:
                     showSettingsFragment();
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         showedSettings = false;
     }
 
-    private void showFavoritesFragment() {
+    private void showWatchedFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         WatchedFragment fragment = new WatchedFragment();
         transaction.replace(R.id.root, fragment);
