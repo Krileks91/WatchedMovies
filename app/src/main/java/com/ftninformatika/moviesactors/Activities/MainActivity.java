@@ -30,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     private final List<NavigationItem> navigationItems = new ArrayList<>();
 
-    private boolean showedSearch = false, showedFavorites = false,
-            showedSettings = false;
+    private boolean showedSearch = false, showedDetails = false,
+            showedSettings = false;     private boolean showerWatched = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
         showedSearch = true;
-        showedFavorites = false;
+        showerWatched = false;
         showedSettings = false;
     }
 
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
         showedSearch = false;
-        showedFavorites = true;
+        showerWatched = true;
         showedSettings = false;
     }
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
 
         showedSearch = false;
-        showedFavorites = false;
+        showerWatched = false;
         showedSettings = true;
     }
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (showedSearch) {
             finish();
-        } else if (showedFavorites) {
+        } else if (showerWatched) {
             getSupportFragmentManager().popBackStack();
             showSearchFragment();
         } else if (showedSettings) {

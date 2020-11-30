@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Details"/>
-</PreferenceScreen>
+        <PreferenceCategory
+            android:key="prikaz"
+            android:title="Show Fragment">
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_technical_details"
+                android:title="Show technical details"
+                android:summary="Show technical details"/>
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="show_actors_details"
+                android:title="Show watchers"
+                android:summary="Show watchers"/>
+        </PreferenceCategory>
+    </PreferenceScreen>

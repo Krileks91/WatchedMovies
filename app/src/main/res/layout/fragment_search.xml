@@ -4,4 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.SearchFragment" />
+    tools:context=".Fragments.SearchFragment" >
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Type movie title"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/bSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pretrazi" />
+
+    <ListView
+        android:id="@+id/lvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
