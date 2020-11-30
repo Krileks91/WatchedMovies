@@ -61,7 +61,7 @@ public class WatchedFragment extends Fragment {
                             boolean open_details = sharedPreferences.getBoolean("show_actors_details", true);
 
                             if (open_technical) {
-                                listener.showTehnickiDetalji(adapter.getItem(i));
+                                listener.showTechnicalDetails(adapter.getItem(i));
                             }
                             if (open_details) {
                                 listener.showDetails(adapter.getItem(i));
@@ -112,7 +112,7 @@ public class WatchedFragment extends Fragment {
     public interface onItemClickListener {
         void onaddClicked();
 
-        void showTehnickiDetalji(Movie movie);
+        void showTechnicalDetails(Movie movie);
 
         void showDetails(Movie movie);
     }

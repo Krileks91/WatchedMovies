@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
     }
 
     @Override
-    public void showTehnickiDetalji(Movie movie) {
+    public void showTechnicalDetails(Movie movie) {
 
     }
 

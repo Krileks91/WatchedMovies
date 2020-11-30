@@ -45,7 +45,7 @@ public class SearchListviewAdapter extends BaseAdapter {
 
         ImageView imageMovie = convertView.findViewById(R.id.image_Movie);
         TextView tvTitle = convertView.findViewById(R.id.textView_Title);
-        TextView tvYear = convertView.findViewById(R.id.textView_Year);
+        TextView tvYear = convertView.findViewById(R.id.textView_Actors);
 
         tvTitle.setText(movies.get(position).getTitle());
         tvYear.setText(movies.get(position).getYear());

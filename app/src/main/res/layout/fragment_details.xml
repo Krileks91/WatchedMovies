@@ -20,33 +20,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView" />
+        android:text="Title" />
 
     <TextView
         android:id="@+id/textView_Director"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView" />
+        android:text="Director" />
 
     <TextView
-        android:id="@+id/textView_Dire"
+        android:id="@+id/textView_Writter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView" />
+        android:text="Writter" />
 
     <TextView
-        android:id="@+id/textView_Plot"
+        android:id="@+id/textView_Actors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="TextView" />
+        android:text="Actors" />
 
-    <TextView
-        android:id="@+id/textView_Director4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="TextView" />
 </LinearLayout>
